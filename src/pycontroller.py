@@ -32,9 +32,26 @@ def joy_callback(data):
     (yaw, throttle, _, pitch, _, _) = data.axes
     msg = Command()
 
-    msg.pitch = pitch
-    msg.yaw = yaw*-1
-    msg.throttle = throttle
+    lim = 0.4
+
+    if throttle < lim:
+        msg.throttle = throttle
+    else:
+        msg.throttle = lim
+
+    if pitch < lim:
+        msg.pitch = pitch
+    else:
+        msg.pitch = lim
+
+    if yaw < lim:
+        msg.yaw = yaw
+    else:
+        msg.yaw = lim
+    
+    #msg.throttle = throttle
+    #msg.pitch = pitch
+    #msg.yaw = yaw
 
     cmdPub.publish(msg)
 
